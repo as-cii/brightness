@@ -2,40 +2,56 @@
 using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
+using System.IO;
 
 namespace Brightness.Test
 {
     [TestClass]
     public class DeltaEngineTest
     {
+        private MemoryStream oldFile;
+        private MemoryStream newFile;
+
         [TestInitialize]
-        public void Hello()
+        public void Before()
         {
-            // Stub here...
+            byte[] newFileBuffer;
+            byte[] oldFileBuffer;
+            Fake.Generator.GenerateSimilarLines(5000, 520, 330, 240, out newFileBuffer, out oldFileBuffer);
+
+            oldFile = new MemoryStream(oldFileBuffer);
+            newFile = new MemoryStream(newFileBuffer);
+        }
+
+        [TestCleanup]
+        public void After()
+        {
+            oldFile.Dispose();
+            newFile.Dispose();
         }
 
         [TestMethod]
         public void ShouldDetectAdditions()
         {
-            IEnumerable<RowDiff> diff = DeltaEngine.Diff<Fake.Employee>("fake_file1", "fake_file2");
+            var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(3, diff.Count(a => a.Status == RowStatus.Added));
+            Assert.AreEqual(520, diff.Count(a => a.Status == RowStatus.Added));
         }
 
         [TestMethod]
         public void ShouldDetectUpdates()
         {
-            IEnumerable<RowDiff> diff = DeltaEngine.Diff<Fake.Employee>("fake_file1", "fake_file2");
+            var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(3, diff.Count(a => a.Status == RowStatus.Updated));
+            Assert.AreEqual(330, diff.Count(a => a.Status == RowStatus.Updated));
         }
 
         [TestMethod]
         public void ShouldDetectDeletions()
         {
-            IEnumerable<RowDiff> diff = DeltaEngine.Diff<Fake.Employee>("fake_file1", "fake_file2");
+            var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(3, diff.Count(a => a.Status == RowStatus.Deleted));
+            Assert.AreEqual(240, diff.Count(a => a.Status == RowStatus.Deleted));
         }
     }
 }

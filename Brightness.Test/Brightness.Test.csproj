@@ -54,12 +54,16 @@
     <Compile Include="Fake\Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DeltaEngineTest.cs" />
+    <Compile Include="Diff\DiffHashTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Brightness\Brightness.csproj">
       <Project>{b71f44d3-b5ce-4376-9e84-48c5b72988f0}</Project>
       <Name>Brightness</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="IO\" />
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">

@@ -375,6 +375,18 @@ namespace DiffMatchPatch {
       return diff_bisect(text1, text2, deadline);
     }
 
+    public List<Diff> diff_lineMode(string text1, string text2)
+    {
+        diff_match_patch diff = new diff_match_patch();
+        var linesResult = diff.diff_linesToChars(text1, text2);
+        var lineText1 = linesResult[0];
+        var lineText2 = linesResult[1];
+        List<string> lineArray = linesResult[2] as List<string>;
+        List<Diff> diffs = diff.diff_main(lineText1.ToString(), lineText2.ToString(), false);
+        diff.diff_charsToLines(diffs, lineArray);
+        return diffs;
+    }
+
     /**
      * Do a quick line-level diff on both strings, then rediff the parts for
      * greater accuracy.
