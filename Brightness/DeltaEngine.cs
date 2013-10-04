@@ -51,8 +51,7 @@ namespace Brightness
                 var diffs = from diffChunk in diff.diff_lineMode(oldBuffer, newBuffer)
                             where diffChunk.operation != Operation.EQUAL &&
                                   !string.IsNullOrWhiteSpace(diffChunk.text)
-                            from difference in diffChunk.text.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
-                            select new DiffMatchPatch.Diff(diffChunk.operation, difference);
+                            select diffChunk;
 
                 return ProcessMyersDiff(diffs, identity, newHeader);
             }
@@ -64,16 +63,17 @@ namespace Brightness
             var hash = new DiffHash<TIdentity, TModel>();
             foreach (var item in diffs)
             {
-                // TODO: optimize here
                 using (var reader = new StringReader(string.Format("{0}\n{1}", header, item.text)))
                 using (var csv = new CsvReader(reader))
                 {
-                    csv.Read();
-                    var model = csv.GetRecord<TModel>();
-                    var status = operationsMapping[item.operation];
-                    var id = identity(model);
+                    while (csv.Read())
+                    {
+                        var model = csv.GetRecord<TModel>();
+                        var status = operationsMapping[item.operation];
+                        var id = identity(model);
 
-                    hash.Add(id, model, status);
+                        hash.Add(id, model, status);
+                    }
                 }
             }
 
