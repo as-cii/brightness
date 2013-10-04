@@ -29,37 +29,16 @@ namespace Brightness.IO
         }
 
 
-        public TwoStreamReader(Stream a, Stream b, int chunkSize)
+        public TwoStreamReader(Stream a, Stream b)
         {
             this.streamA = new StreamReader(a);
             this.streamB = new StreamReader(b);
-            this.chunkSize = chunkSize;
         }
 
-        public bool ReadLines(out string outputA, out string outputB)
+        public void ReadLines(out string outputA, out string outputB)
         {
-            var outputABuilder = new StringBuilder();
-            var outputBBuilder = new StringBuilder();
-            var hasReadSomething = false;
-
-            for (int i = 0; i < chunkSize; i++)
-            {
-                if (!(streamA.EndOfStream && streamB.EndOfStream))
-                {
-                    hasReadSomething = true;
-                }
-
-                if (!streamA.EndOfStream)
-                    outputABuilder.AppendLine(streamA.ReadToEnd());
-
-                if (!streamB.EndOfStream)
-                    outputBBuilder.AppendLine(streamB.ReadToEnd());
-            }
-
-            outputA = outputABuilder.ToString();
-            outputB = outputBBuilder.ToString();
-
-            return hasReadSomething;
+            outputA = streamA.ReadToEnd();
+            outputB = streamB.ReadToEnd();
         }
 
         public void Dispose()

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Brightness.Diff
 {
-    public static class Diffy
+    internal static class Diffy
     {
         private static void AppendLineIfNonEmpty(this StringBuilder builder, string text)
         {
@@ -18,7 +18,13 @@ namespace Brightness.Diff
             builder.AppendLine(text);
         }
 
-        public static IEnumerable<ChunkDiff> ChunkDifferences(string oldBuffer, string newBuffer)
+        /// <summary>
+        /// Compares two buffers and outputs differences of chunks.
+        /// </summary>
+        /// <param name="oldBuffer"></param>
+        /// <param name="newBuffer"></param>
+        /// <returns></returns>
+        internal static IEnumerable<ChunkDiff> ChunkDifferences(string oldBuffer, string newBuffer)
         {
             DiffResult diffResult = new Differ().CreateLineDiffs(oldBuffer, newBuffer, false);
             var diffs = new List<ChunkDiff>();

@@ -28,27 +28,25 @@ namespace Brightness
         public static IEnumerable<RowDiff<TIdentity, TModel>> Diff<TModel, TIdentity>(Stream oldFile, 
             Stream newFile, Func<TModel, TIdentity> identity)
         {
-            using (var twoStream = new TwoStreamReader(oldFile, newFile, 50000))
+            using (var twoStream = new TwoStreamReader(oldFile, newFile))
             {
                 // skip old header, take just the new one
                 twoStream.StreamA.ReadLine();
                 string newHeader = twoStream.StreamB.ReadLine();
 
-                var diffHash = new DiffHash<TIdentity, TModel>();
-
                 string oldBuffer, newBuffer;
                 twoStream.ReadLines(out oldBuffer, out newBuffer);
-                var diffs = Diffy.ChunkDifferences(oldBuffer, newBuffer);
 
-                ProcessMyersDiff(diffs, identity, diffHash, newHeader);
-
+                var diffHash = new DiffHash<TIdentity, TModel>();
+                Diffy.ChunkDifferences(oldBuffer, newBuffer)
+                     .ProcessAndParseDiff(identity, diffHash, newHeader);
 
                 return diffHash;
             }
         }
 
 
-        private static void ProcessMyersDiff<TModel, TIdentity>(IEnumerable<ChunkDiff> diffs, 
+        private static void ProcessAndParseDiff<TModel, TIdentity>(this IEnumerable<ChunkDiff> diffs, 
             Func<TModel, TIdentity> identity, DiffHash<TIdentity, TModel> hash, string header)
         {
             foreach (var item in diffs)
