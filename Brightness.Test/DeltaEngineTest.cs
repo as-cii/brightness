@@ -3,6 +3,7 @@ using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Collections.Generic;
 using System.IO;
+using Brightness.Diff;
 
 namespace Brightness.Test
 {
@@ -17,7 +18,7 @@ namespace Brightness.Test
         {
             byte[] newFileBuffer;
             byte[] oldFileBuffer;
-            Fake.Generator.GenerateSimilarLines(5000, 520, 330, 240, out newFileBuffer, out oldFileBuffer);
+            Fake.Generator.GenerateSimilarLines(1000000, 1520, 6330, 2240, out newFileBuffer, out oldFileBuffer);
 
             oldFile = new MemoryStream(oldFileBuffer);
             newFile = new MemoryStream(newFileBuffer);
@@ -35,7 +36,7 @@ namespace Brightness.Test
         {
             var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(520, diff.Count(a => a.Status == RowStatus.Added));
+            Assert.AreEqual(1520, diff.Count(a => a.Status == RowStatus.Added));
         }
 
         [TestMethod]
@@ -43,7 +44,7 @@ namespace Brightness.Test
         {
             var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(330, diff.Count(a => a.Status == RowStatus.Updated));
+            Assert.AreEqual(6330, diff.Count(a => a.Status == RowStatus.Updated));
         }
 
         [TestMethod]
@@ -51,7 +52,7 @@ namespace Brightness.Test
         {
             var diff = DeltaEngine.Diff<Brightness.Test.Fake.Employee, int>(oldFile, newFile, a => a.Id);
 
-            Assert.AreEqual(240, diff.Count(a => a.Status == RowStatus.Deleted));
+            Assert.AreEqual(2240, diff.Count(a => a.Status == RowStatus.Deleted));
         }
     }
 }

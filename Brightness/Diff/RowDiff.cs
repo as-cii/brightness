@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Brightness
+namespace Brightness.Diff
 {
     public enum RowStatus
     {
