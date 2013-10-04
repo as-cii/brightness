@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brightness", "Brightness\Br
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brightness.Test", "Brightness.Test\Brightness.Test.csproj", "{4202D711-B303-49DD-800C-A03ADE60346A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Brightness.Benchmark", "Brightness.Benchmark\Brightness.Benchmark.csproj", "{2B21DA34-DF5E-4F2C-A77B-9E30DE146FE6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -19,8 +21,15 @@ Global
 		{4202D711-B303-49DD-800C-A03ADE60346A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4202D711-B303-49DD-800C-A03ADE60346A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4202D711-B303-49DD-800C-A03ADE60346A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B21DA34-DF5E-4F2C-A77B-9E30DE146FE6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B21DA34-DF5E-4F2C-A77B-9E30DE146FE6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B21DA34-DF5E-4F2C-A77B-9E30DE146FE6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B21DA34-DF5E-4F2C-A77B-9E30DE146FE6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
 	EndGlobalSection
 EndGlobal
