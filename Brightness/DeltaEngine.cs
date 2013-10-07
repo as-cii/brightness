@@ -29,17 +29,7 @@ namespace Brightness
         public static IEnumerable<RowDiff<TIdentity, TModel>> Diff<TModel, TIdentity>(Stream oldFile, 
             Stream newFile, Func<TModel, TIdentity> identity)
         {
-            using (var twoStream = new TwoStreamReader(oldFile, newFile))
-            {
-                // skip old header, take just the new one
-                twoStream.StreamA.ReadLine();
-                string newHeader = twoStream.StreamB.ReadLine();
-
-                string oldBuffer, newBuffer;
-                twoStream.ReadLines(out oldBuffer, out newBuffer);
-
-                return new LineByLineDiffStrategy().CreateDiff(newHeader, oldBuffer, newBuffer, identity);
-            }
+            return new LineByLineDiffStrategy().CreateDiff(oldFile, newFile, identity);
         }
     }
 }

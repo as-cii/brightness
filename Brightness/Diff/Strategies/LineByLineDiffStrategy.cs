@@ -8,10 +8,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Brightness.Extensions;
+using Brightness.IO;
 
 namespace Brightness.Diff.Strategies
 {
-    internal class LineByLineDiffStrategy : IDiffStrategy
+    public class LineByLineDiffStrategy : IDiffStrategy
     {
         /// <summary>
         /// Compares two buffers and outputs differences of chunks.
@@ -19,10 +20,13 @@ namespace Brightness.Diff.Strategies
         /// <param name="oldBuffer"></param>
         /// <param name="newBuffer"></param>
         /// <returns></returns>
-        public IEnumerable<RowDiff<TIdentity, TModel>> CreateDiff<TModel, TIdentity>(string header, string oldBuffer,
-            string newBuffer, Func<TModel, TIdentity> identity)
+        public IEnumerable<RowDiff<TIdentity, TModel>> CreateDiff<TModel, TIdentity>(Stream oldBuffer,
+            Stream newBuffer, Func<TModel, TIdentity> identity)
         {
-            DiffResult diffResult = new Differ().CreateLineDiffs(oldBuffer, newBuffer, false);
+            string oldText, newText, header;
+            ReadBuffers(oldBuffer, newBuffer, out oldText, out newText, out header);
+
+            DiffResult diffResult = new Differ().CreateLineDiffs(oldText, newText, false);
             var diffs = new List<ChunkDiff>();
             int bPos = 0;
             foreach (var diffBlock in diffResult.DiffBlocks)
@@ -69,6 +73,17 @@ namespace Brightness.Diff.Strategies
             return ProcessAndParseDiff(diffs, identity, header);
         }
 
+        private static void ReadBuffers(Stream oldBuffer, Stream newBuffer, out string oldText, out string newText, out string header)
+        {
+
+            using (var twoStream = new TwoStreamReader(oldBuffer, newBuffer))
+            {
+                twoStream.StreamA.ReadLine();
+                header = twoStream.StreamB.ReadLine();
+                twoStream.ReadLines(out oldText, out newText);
+            }
+        }
+
         private static DiffHash<TIdentity, TModel> ProcessAndParseDiff<TModel, TIdentity>(IEnumerable<ChunkDiff> diffs,
     Func<TModel, TIdentity> identity, string header)
         {
@@ -79,6 +94,7 @@ namespace Brightness.Diff.Strategies
                 using (var csv = new CsvReader(reader))
                 {
                     csv.Configuration.Delimiter = "|";
+
                     while (csv.Read())
                     {
                         var model = csv.GetRecord<TModel>();

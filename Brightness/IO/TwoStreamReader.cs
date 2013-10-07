@@ -10,7 +10,6 @@ namespace Brightness.IO
     {
         private readonly StreamReader streamA;
         private readonly StreamReader streamB;
-        private readonly int chunkSize;
 
         public StreamReader StreamA
         {
