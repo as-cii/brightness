@@ -50,10 +50,12 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="Diff\Strategies\BaseStrategyTest.cs" />
+    <Compile Include="Diff\Strategies\InMemoryDiffStrategyTest.cs" />
     <Compile Include="Fake\Employee.cs" />
     <Compile Include="Fake\Generator.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Diff\Strategies\DeltaEngineTest.cs" />
+    <Compile Include="Diff\Strategies\LineByLineDiffStrategyTest.cs" />
     <Compile Include="Diff\DiffHashTest.cs" />
   </ItemGroup>
   <ItemGroup>

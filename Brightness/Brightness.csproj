@@ -49,6 +49,7 @@
     <Compile Include="DeltaEngine.cs" />
     <Compile Include="Diff\ChunkDiff.cs" />
     <Compile Include="Diff\Strategies\IDiffStrategy.cs" />
+    <Compile Include="Diff\Strategies\InMemoryDiffStrategy.cs" />
     <Compile Include="Diff\Strategies\LineByLineDiffStrategy.cs" />
     <Compile Include="Diff\DiffHash.cs" />
     <Compile Include="Extensions\StringBuilderEx.cs" />

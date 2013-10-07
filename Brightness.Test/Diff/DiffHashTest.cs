@@ -12,9 +12,9 @@ namespace Brightness.Test.Diff
         public void ShouldMergeCollisionsAndChangeStatus()
         {
             DiffHash<int, string> x = new DiffHash<int, string>();
-            x.Add(1, "hello", RowStatus.Added);
-            x.Add(1, "goodbye", RowStatus.Deleted);
-            x.Add(2, "x", RowStatus.Added);
+            x.MergeAdd(1, "hello", RowStatus.Added);
+            x.MergeAdd(1, "goodbye", RowStatus.Deleted);
+            x.MergeAdd(2, "x", RowStatus.Added);
 
             Assert.AreEqual(2, x.Count());
             Assert.AreEqual(RowStatus.Updated, x.First().Status);
@@ -27,8 +27,8 @@ namespace Brightness.Test.Diff
         {
             DiffHash<int, string> x = new DiffHash<int, string>();
             
-            x.Add(1, "hello", RowStatus.Added);
-            x.Add(1, "goodbye", RowStatus.Added);
+            x.MergeAdd(1, "hello", RowStatus.Added);
+            x.MergeAdd(1, "goodbye", RowStatus.Added);
         }
 
         [TestMethod]
@@ -37,8 +37,8 @@ namespace Brightness.Test.Diff
         {
             DiffHash<int, string> x = new DiffHash<int, string>();
 
-            x.Add(1, "hello", RowStatus.Deleted);
-            x.Add(1, "goodbye", RowStatus.Deleted);
+            x.MergeAdd(1, "hello", RowStatus.Deleted);
+            x.MergeAdd(1, "goodbye", RowStatus.Deleted);
         }
 
         [TestMethod]
@@ -47,8 +47,8 @@ namespace Brightness.Test.Diff
         {
             DiffHash<int, string> x = new DiffHash<int, string>();
 
-            x.Add(1, "hello", RowStatus.Updated);
-            x.Add(1, "goodbye", RowStatus.Deleted);
+            x.MergeAdd(1, "hello", RowStatus.Updated);
+            x.MergeAdd(1, "goodbye", RowStatus.Deleted);
         }
     }
 }
