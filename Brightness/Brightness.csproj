@@ -48,8 +48,10 @@
   <ItemGroup>
     <Compile Include="DeltaEngine.cs" />
     <Compile Include="Diff\ChunkDiff.cs" />
-    <Compile Include="Diff\Diffy.cs" />
+    <Compile Include="Diff\Strategies\IDiffStrategy.cs" />
+    <Compile Include="Diff\Strategies\LineByLineDiffStrategy.cs" />
     <Compile Include="Diff\DiffHash.cs" />
+    <Compile Include="Extensions\StringBuilderEx.cs" />
     <Compile Include="IO\TwoStreamReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Diff\RowDiff.cs" />

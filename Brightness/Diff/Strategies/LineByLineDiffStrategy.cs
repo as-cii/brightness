@@ -19,7 +19,7 @@ namespace Brightness.Diff.Strategies
         /// <param name="oldBuffer"></param>
         /// <param name="newBuffer"></param>
         /// <returns></returns>
-        internal IEnumerable<RowDiff<TIdentity, TModel>> CreateDiff<TModel, TIdentity>(string header, string oldBuffer,
+        public IEnumerable<RowDiff<TIdentity, TModel>> CreateDiff<TModel, TIdentity>(string header, string oldBuffer,
             string newBuffer, Func<TModel, TIdentity> identity)
         {
             DiffResult diffResult = new Differ().CreateLineDiffs(oldBuffer, newBuffer, false);
@@ -69,7 +69,7 @@ namespace Brightness.Diff.Strategies
             return ProcessAndParseDiff(diffs, identity, header);
         }
 
-        private static DiffHash<TIdentity, TModel> ProcessAndParseDiff<TModel, TIdentity>(this IEnumerable<ChunkDiff> diffs,
+        private static DiffHash<TIdentity, TModel> ProcessAndParseDiff<TModel, TIdentity>(IEnumerable<ChunkDiff> diffs,
     Func<TModel, TIdentity> identity, string header)
         {
             var hash = new DiffHash<TIdentity, TModel>();
