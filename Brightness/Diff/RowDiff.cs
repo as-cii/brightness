@@ -16,6 +16,11 @@ namespace Brightness.Diff
         public TModel Row { get; set; }
         public RowStatus Status { get; set; }
 
+        public RowDiff(TIdentity id, TModel row) : this(id, row, RowStatus.Added)
+        {
+
+        }
+
         public RowDiff(TIdentity id, TModel row, RowStatus status)
         {
             this.Row = row;

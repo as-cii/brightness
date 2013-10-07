@@ -100,7 +100,7 @@ namespace Brightness.Diff.Strategies
                         var model = csv.GetRecord<TModel>();
                         var id = identity(model);
 
-                        hash.Add(id, model, item.Status);
+                        hash.MergeAdd(id, model, item.Status);
                     }
                 }
             }

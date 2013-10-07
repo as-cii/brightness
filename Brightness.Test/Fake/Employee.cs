@@ -9,12 +9,17 @@ namespace Brightness.Test.Fake
     /// <summary>
     /// This is just a fake model class.
     /// </summary>
-    class Employee
+    class Employee : IEquatable<Employee>
     {
         public int Id { get; set; }
 
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
+
+        public bool Equals(Employee other)
+        {
+            return other.FirstName == this.FirstName && other.LastName == this.LastName;
+        }
     }
 }

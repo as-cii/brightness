@@ -15,7 +15,12 @@ namespace Brightness.Diff
             this.diffHash = new Dictionary<TIdentity, RowDiff<TIdentity, TModel>>();
         }
 
-        public void Add(TIdentity id, TModel model, RowStatus status)
+        public void Add(TIdentity id, TModel model)
+        {
+            this.diffHash.Add(id, new RowDiff<TIdentity, TModel>(id, model, RowStatus.Added));
+        }
+
+        public void MergeAdd(TIdentity id, TModel model, RowStatus status)
         {
             var rowDiff = new RowDiff<TIdentity, TModel>(id, model, status);
 
@@ -26,6 +31,25 @@ namespace Brightness.Diff
             }
 
             diffHash.Add(id, rowDiff);
+        }
+
+
+        public void CompareAndAdd(TIdentity id, TModel model)
+        {
+            if (!diffHash.ContainsKey(id))
+            {
+                this.diffHash.Add(id, new RowDiff<TIdentity, TModel>(id, model, RowStatus.Deleted));
+                return;
+            }
+            else
+            {
+                var row = this.diffHash[id];
+                bool areEqual = EqualityComparer<TModel>.Default.Equals(model, row.Row);
+                if (areEqual)
+                    this.diffHash.Remove(id);
+                else
+                    row.Status = RowStatus.Updated;
+            }
         }
 
         public IEnumerator<RowDiff<TIdentity, TModel>> GetEnumerator()
