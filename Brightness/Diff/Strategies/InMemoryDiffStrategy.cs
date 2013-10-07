@@ -16,7 +16,8 @@ namespace Brightness.Diff.Strategies
         {   
             var csvConfig = new CsvConfiguration()
             {
-                Delimiter = "|"
+                Delimiter = "|",
+                BufferSize = (1 << 14)
             };
 
             var hash = new DiffHash<TIdentity, TModel>();
@@ -26,21 +27,37 @@ namespace Brightness.Diff.Strategies
             using (var oldCsv = new CsvReader(oldBufferReader, csvConfig))
             using (var newCsv = new CsvReader(newBufferReader, csvConfig))
             {
-                while (newCsv.Read())
+                bool oldHasData = true;
+                bool newHasData = true;
+
+                do
                 {
-                    var row = newCsv.GetRecord<TModel>();
-                    var id = identity(row);
+                    if (oldHasData && oldCsv.Read())
+                    {
+                        oldHasData = true;
 
-                    hash.Add(id, row);
-                }
+                        var row = oldCsv.GetRecord<TModel>();
+                        var id = identity(row);
 
-                while (oldCsv.Read())
-                {
-                    var row = oldCsv.GetRecord<TModel>();
-                    var id = identity(row);
+                        hash.CompareAdd(id, row, string.Join("", oldCsv.CurrentRecord), RowStatus.Deleted);
+                    }
+                    else
+                    {
+                        oldHasData = false;
+                    }
 
-                    hash.CompareAndAdd(id, row);
-                }
+                    if (newHasData && newCsv.Read())
+                    {
+                        var row = newCsv.GetRecord<TModel>();
+                        var id = identity(row);
+
+                        hash.CompareAdd(id, row, string.Join("", newCsv.CurrentRecord), RowStatus.Added);
+                    }
+                    else
+                    {
+                        newHasData = false;
+                    }
+                } while (oldHasData || newHasData);
             }
 
             return hash;

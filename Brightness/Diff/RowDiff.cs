@@ -15,17 +15,14 @@ namespace Brightness.Diff
         public TIdentity Id { get; set; }
         public TModel Row { get; set; }
         public RowStatus Status { get; set; }
+        public string PlainRow { get; set; }
 
-        public RowDiff(TIdentity id, TModel row) : this(id, row, RowStatus.Added)
-        {
-
-        }
-
-        public RowDiff(TIdentity id, TModel row, RowStatus status)
+        public RowDiff(TIdentity id, TModel row, RowStatus status, string plain)
         {
             this.Row = row;
             this.Id = id;
             this.Status = status;
+            this.PlainRow = plain;
         }
 
         public bool Equals(RowDiff<TIdentity, TModel> other)

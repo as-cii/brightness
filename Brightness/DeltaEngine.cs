@@ -29,7 +29,7 @@ namespace Brightness
         public static IEnumerable<RowDiff<TIdentity, TModel>> Diff<TModel, TIdentity>(Stream oldFile, 
             Stream newFile, Func<TModel, TIdentity> identity)
         {
-            return new LineByLineDiffStrategy().CreateDiff(oldFile, newFile, identity);
+            return new InMemoryDiffStrategy().CreateDiff(oldFile, newFile, identity);
         }
     }
 }

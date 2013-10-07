@@ -23,11 +23,9 @@ namespace Brightness.Benchmark
             Console.WriteLine("======== BRIGHTNESS BENCHMARK =======");
             Console.WriteLine("========  -ANTONIO SCANDURRA- =======");
 
-            var sw = Stopwatch.StartNew();
             var differences = DeltaEngine.Diff("old.dat", "new.dat", (Employee e) => e.Id);
-            sw.Stop();
 
-            Console.WriteLine("Processed 500000 rows in {0}ms", sw.ElapsedMilliseconds);
+            Console.WriteLine("Found {0} differences", differences.Count());
             Console.WriteLine("Press ENTER to exit...");
             Console.ReadLine();
         }
