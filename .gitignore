@@ -81,6 +81,9 @@ publish
 # NuGet Packages Directory
 packages
 
+# NuGet Created Packages
+*.nupkg
+
 # Windows Azure Build Output
 csx
 *.build.csdef

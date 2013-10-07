@@ -6,9 +6,9 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Brightness")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Diff library for comparing CSV files.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Antonio Scandurra")]
 [assembly: AssemblyProduct("Brightness")]
 [assembly: AssemblyCopyright("Copyright ©  2013")]
 [assembly: AssemblyTrademark("")]

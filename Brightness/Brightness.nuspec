@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>$id$</id>
+    <version>$version$</version>
+    <title>$title$</title>
+    <authors>Antonio Scandurra</authors>
+    <owners>Antonio Scandurra</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Diff library for comparing CSV files.</description>
+    <releaseNotes>First alpha release.</releaseNotes>
+    <copyright>Copyright 2013</copyright>
+    <tags>diff csv file compare</tags>
+  </metadata>
+</package>
