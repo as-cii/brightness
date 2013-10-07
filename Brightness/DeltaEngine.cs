@@ -54,6 +54,7 @@ namespace Brightness
                 using (var reader = new StringReader(string.Format("{0}\n{1}", header, item.Text)))
                 using (var csv = new CsvReader(reader))
                 {
+                    csv.Configuration.Delimiter = "|";
                     while (csv.Read())
                     {
                         var model = csv.GetRecord<TModel>();

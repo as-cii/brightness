@@ -20,7 +20,7 @@ namespace Brightness.Test.Fake
             string firstName = random.Next().ToString();
             string lastName = random.Next().ToString();
 
-            return string.Format("{0},{1},{2}", id, firstName, lastName);
+            return string.Format("{0}|{1}|{2}", id, firstName, lastName);
         }
 
         /// <summary>
@@ -35,7 +35,7 @@ namespace Brightness.Test.Fake
             var oldFileBuilder = new StringBuilder();
             var newFileBuilder = new StringBuilder();
 
-            string header = "Id,FirstName,LastName";
+            string header = "Id|FirstName|LastName";
             oldFileBuilder.AppendLine(header);
             newFileBuilder.AppendLine(header);
 
