@@ -10,6 +10,7 @@ using DiffPlex.DiffBuilder.Model;
 using DiffPlex.DiffBuilder;
 using DiffPlex.Model;
 using DiffPlex;
+using Brightness.Diff.Strategies;
 
 namespace Brightness
 {
@@ -37,34 +38,8 @@ namespace Brightness
                 string oldBuffer, newBuffer;
                 twoStream.ReadLines(out oldBuffer, out newBuffer);
 
-                var diffHash = new DiffHash<TIdentity, TModel>();
-                Diffy.ChunkDifferences(oldBuffer, newBuffer)
-                     .ProcessAndParseDiff(identity, diffHash, newHeader);
-
-                return diffHash;
+                return new LineByLineDiffStrategy().CreateDiff(newHeader, oldBuffer, newBuffer, identity);
             }
         }
-
-
-        private static void ProcessAndParseDiff<TModel, TIdentity>(this IEnumerable<ChunkDiff> diffs, 
-            Func<TModel, TIdentity> identity, DiffHash<TIdentity, TModel> hash, string header)
-        {
-            foreach (var item in diffs)
-            {
-                using (var reader = new StringReader(string.Format("{0}\n{1}", header, item.Text)))
-                using (var csv = new CsvReader(reader))
-                {
-                    csv.Configuration.Delimiter = "|";
-                    while (csv.Read())
-                    {
-                        var model = csv.GetRecord<TModel>();
-                        var id = identity(model);
-
-                        hash.Add(id, model, item.Status);
-                    }
-                }
-            }
-        }
-
     }
 }
