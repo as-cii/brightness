@@ -30,5 +30,20 @@ The identifier could also be composed:
 DeltaEngine.Diff("file1.txt", "file2.txt", (YourModel model) => new { model.A, model.B, model.C });
 ```
 
+Now you are ready to use changed rows as you want. `DeltaEngine.Diff(...)` will return an `IEnumerable<RowDiff<TIdentity, TModel>>``, so you could for example update your database using your ORM:
+```csharp
+var differences = DeltaEngine.Diff(...);
+
+foreach (var difference in differences)
+{
+  if (difference.Status == RowStatus.Added)
+    myContext.Add(difference.Row);
+  else if (difference.Status == RowStatus.Deleted)
+    myContext.Remove(difference.Id);
+  else if (difference.Status == RowStatus.Updated)
+    myContext.Update(difference.Id, difference.Row);
+}
+```
+
 ## Contribute
 Please report any issue you find or submit a PR if you have any improvements.
