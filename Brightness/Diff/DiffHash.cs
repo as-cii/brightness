@@ -40,10 +40,16 @@ namespace Brightness.Diff
             {
                 var row = this.diffHash[id];
 
-                if (plain == row.PlainRow)
-                    this.diffHash.Remove(id);
-                else
-                    row.Status = RowStatus.Updated;
+				if (plain == row.PlainRow)
+				{
+					this.diffHash.Remove(id);
+				}
+				else 
+				{
+					row.Status = RowStatus.Updated;
+					if (status == RowStatus.Added)
+						row.Row = model;
+				}
             }
         }
 
