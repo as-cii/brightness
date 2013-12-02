@@ -34,7 +34,6 @@ namespace Brightness.Diff
             if (!diffHash.ContainsKey(id))
             {
                 this.diffHash.Add(id, new RowDiff<TIdentity, TModel>(id, model, status, plain));
-                return;
             }
             else
             {
@@ -47,8 +46,11 @@ namespace Brightness.Diff
 				else 
 				{
 					row.Status = RowStatus.Updated;
-					if (status == RowStatus.Added)
-						row.Row = model;
+                    if (status == RowStatus.Added)
+                    {
+                        row.Row = model;
+                        row.PlainRow = plain;
+                    }
 				}
             }
         }
