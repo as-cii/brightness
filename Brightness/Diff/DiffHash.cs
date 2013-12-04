@@ -15,20 +15,6 @@ namespace Brightness.Diff
             this.diffHash = new Dictionary<TIdentity, RowDiff<TIdentity, TModel>>();
         }
 
-        public void MergeAdd(TIdentity id, TModel model, RowStatus status)
-        {
-            var rowDiff = new RowDiff<TIdentity, TModel>(id, model, status, "");
-
-            if (diffHash.ContainsKey(id))
-            {
-                diffHash[id].Merge(rowDiff);
-                return;
-            }
-
-            diffHash.Add(id, rowDiff);
-        }
-
-
         public void CompareAdd(TIdentity id, TModel model, string plain, RowStatus status)
         {
             if (!diffHash.ContainsKey(id))
