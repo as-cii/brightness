@@ -39,7 +39,7 @@ namespace Brightness.Diff.Strategies
                         var row = oldCsv.GetRecord<TModel>();
                         var id = identity(row);
 
-                        hash.CompareAdd(id, row, string.Join("", oldCsv.CurrentRecord), RowStatus.Deleted);
+                        hash.CompareAdd(id, row, oldCsv.Parser.RawRecord, RowStatus.Deleted);
                     }
                     else
                     {
@@ -51,7 +51,7 @@ namespace Brightness.Diff.Strategies
                         var row = newCsv.GetRecord<TModel>();
                         var id = identity(row);
 
-                        hash.CompareAdd(id, row, string.Join("", newCsv.CurrentRecord), RowStatus.Added);
+                        hash.CompareAdd(id, row, newCsv.Parser.RawRecord, RowStatus.Added);
                     }
                     else
                     {
