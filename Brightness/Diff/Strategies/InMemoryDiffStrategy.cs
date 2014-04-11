@@ -17,9 +17,16 @@ namespace Brightness.Diff.Strategies
             var csvConfig = new CsvConfiguration()
             {
                 Delimiter = "|",
-                BufferSize = (1 << 14)
+                BufferSize = (1 << 14),
+                WillThrowOnMissingField = false
             };
 
+            return CreateDiff(csvConfig, oldBuffer, newBuffer, identity);
+        }
+        
+        public IEnumerable<RowDiff<TIdentity, TModel>> CreateDiff<TModel, TIdentity>(CsvConfiguration csvConfig,
+        System.IO.Stream oldBuffer, System.IO.Stream newBuffer, Func<TModel, TIdentity> identity)
+        {   
             var hash = new DiffHash<TIdentity, TModel>();
 
             using (var oldBufferReader = new StreamReader(oldBuffer))
